@@ -131,7 +131,7 @@ Example folder structure
 
 As described in [Flux pattern](https://facebook.github.io/flux/docs/in-depth-overview) we have our state and dispatchers, with the dispatcher the components can dispatch actions (pretty obvious I know), but the way we expose the state and dispatcher is using a custom hook. A common wat to use the state and the dispatcher in the components is by using methods like mapStateToProps and mapDispatchToProps and then doing a few steps in every component that require access to the state or the dispatcher incrementing the complexity and requiring to import and declare in the whole application specific libraries and methods. 
 
-The proposed to avoid this is to maintain the code relative to the State management in the state layer and expose the dispatcher and the state to the components using custom hooks. This custom hooks is declare in the index.js file, so if a component need access to it just need to import it from the state like this:
+The propose to avoid this is to maintain the code relative to the State management in the state layer and expose the dispatcher and the state to the components using custom hooks. This custom hooks is declare in the index.js file, so if a component need access to it just need to import it from the state like this:
 
 
     import useProducts from 'state/products';
@@ -163,4 +163,13 @@ a typical index.js that creates the hook file looks like:
 ----
 
 ## Incentive
-> @todo
+
+### Architectur incentive
+> The main idea behind this article is to expose a way to extructure your projects to achieve separation of layers and further separation within this layers. In case of the layout is by doing mini apps in a tree structure and in case of the state is that every state has is own isolated module with everything it might need to work. Then reduce the complexity and coupling of the layers.
+
+
+### Team work incentive
+> This way allows for people to work in the same project but having their own isolated code that nobody need to touch to do their own work, facilitates the planning and messure of the project and allows that some one does the state management and other the layout in parallel.
+
+### Enterprise incentive
+> By appliying this proposal, an enterprise can standarize the production of the products and can move developers from one project to another without too much trouble and less adaptation time. It maximises the reuse of solutions from one project to another and the maintenance of existing products with the obvious cost reductions.
