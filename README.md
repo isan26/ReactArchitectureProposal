@@ -164,7 +164,7 @@ a typical index.js that creates the hook file looks like:
 
 ## Incentive
 
-### Architectur incentive
+### Architecture incentive
 > The main idea behind this article is to expose a way to extructure your projects to achieve separation of layers and further separation within this layers. In case of the layout is by doing mini apps in a tree structure and in case of the state is that every state has is own isolated module with everything it might need to work. Then reduce the complexity and coupling of the layers.
 
 
