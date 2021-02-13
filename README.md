@@ -68,6 +68,8 @@ Example folder structure
             │   │   └── Table.jsx
             │   └── index.jsx
             └── Menu
+                ├── Components
+                ├── Pages
                 ├── Detail
                 │   ├── components
                 │   │   ├── Amount.jsx
@@ -99,13 +101,65 @@ Example folder structure
 > Is fundamental that the structure of the pages mirror the app's routing
 
 ----
-
-## Documentation on Repo 
-> @todo
-----
-
 ## Application State
-> @todo
+> This way to manage the state was an evolution of the regular way to work with the [Flux pattern](https://facebook.github.io/flux/docs/in-depth-overview), however the idea is to abstract the state management and logic related to the app's data to another layer with the goal in mind that the components that handle the app layout wont be coupled to an specific library and know as little as possible about the state layer.
+
+
+### Folder structure
+> The state folder is a core module of the APP and can be placed in the src/ folder directly and inside this folder we will have a subfolder for every piece of data we have in our APP. For example, an app that handles clients and orders may have an structue like:
+
+
+
+             state
+               ├── products
+               │   ├── actions.js
+               │   ├── dispatcher.js
+               │   ├── reducer.js
+               │   ├── sagas.js
+               │   ├── selector.js
+               │   └── index.js
+               └── orders
+                   ├── actions.js
+                   ├── dispatcher.js                   
+                   ├── reducer.js
+                   ├── sagas.js
+                   ├── selector.js
+                   └── index.js
+
+
+## **use**TheHook
+
+As described in [Flux pattern](https://facebook.github.io/flux/docs/in-depth-overview) we have our state and dispatchers, with the dispatcher the components can dispatch actions (pretty obvious I know), but the way we expose the state and dispatcher is using a custom hook. A common wat to use the state and the dispatcher in the components is by using methods like mapStateToProps and mapDispatchToProps and then doing a few steps in every component that require access to the state or the dispatcher incrementing the complexity and requiring to import and declare in the whole application specific libraries and methods. 
+
+The proposed to avoid this is to maintain the code relative to the State management in the state layer and expose the dispatcher and the state to the components using custom hooks. This custom hooks is declare in the index.js file, so if a component need access to it just need to import it from the state like this:
+
+
+    import useProducts from 'state/products';
+
+and then inside the component we access the state and dispatcher as simple as:
+
+    const [state,dispatcher] = useProducts();
+
+a typical index.js that creates the hook file looks like:
+
+    import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+
+    import Dispatcher from './dispatcher';
+    import selector from './selector';
+
+
+    const useProduct = () => {
+        const dispatcher = new Dispatcher(useDispatch());
+        const state = useSelector(selector, shallowEqual);
+
+        return [state, dispatcher]
+    }
+
+
+    export default useProduct;
+
+
+
 ----
 
 ## Incentive
